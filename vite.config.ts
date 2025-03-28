@@ -4,11 +4,9 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   define: {
-    global: 'window', 
+    'global': 'window', // Esto ayuda a solucionar problemas con algunos módulos
   },
-  resolve: {
-    alias: {
-      crypto: 'crypto-browserify',
-    },
+  optimizeDeps: {
+    include: ['crypto-browserify'],
   },
 });
