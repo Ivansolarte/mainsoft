@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { ModalAbilities } from "../organisms/modal/modal";
 import { Links } from "../atoms/link/links";
+import { useNavigate  } from "react-router";
 
 interface PokemonData {
   id: number;
@@ -11,6 +12,7 @@ interface PokemonData {
 }
 
 const PokemonInfo = () => {
+  const navigate =useNavigate()
   const params = useParams();
   const [pokemonData, setPokemonData] = useState<PokemonData | null>(null);
   const [modalShow, setModalShow] = useState(false);
@@ -18,7 +20,14 @@ const PokemonInfo = () => {
 
   const getPokemonDetails = async () => {
     const resp = await fetch(`https://pokeapi.co/api/v2/pokemon/${params.id}`);
+    console.log(resp.status);
+    if (resp.status == 404) {
+      navigate("/");
+      return
+    }
+    
     const data = await resp.json();
+
     setPokemonData(data);
     setPokemonSound({
         audio1: data.cries?.latest || '',

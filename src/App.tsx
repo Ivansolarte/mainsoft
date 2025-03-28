@@ -7,6 +7,8 @@ function App() {
   const { isAuthenticated ,login} = useAuthStore();
 
   useEffect(() => {    
+    console.log("cargando app");
+    
     if(sessionStorage.getItem('token')) login();
   }, []) 
 

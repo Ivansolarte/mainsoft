@@ -21,6 +21,7 @@ export const Login = () => {
     setAlertModal(false)
     if (form.email == "admin" && form.password == "123") {
       login();
+      sessionStorage.setItem('token',btoa(JSON.stringify(form)))
       return;
     }
     setAlertModal(true)
