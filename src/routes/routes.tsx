@@ -8,8 +8,6 @@ export const Routees = () => {
     <Routes >
       <Route path="/" index element={<Dashboard />} />
       <Route path="pokemon/:id" element={<PokemonInfo />} />
-
-      {/* Redirige cualquier ruta desconocida al Dashboard */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
