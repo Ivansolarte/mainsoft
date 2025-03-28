@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { Pagination } from "../../molecules/pagination";
 import { TableProps } from "../../../types/interface.table";
-import { Links } from "../../atoms/link/links";
+import { Img } from "../../atoms/img/img";
+import { useNavigate } from "react-router";
+
 
 export const Table = ({
   data,
@@ -9,38 +11,37 @@ export const Table = ({
   pagination,
   setPaginationValue,
 }: TableProps) => {
-
+  const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1);
 
-const incrementPagination = () => {
-  setPaginationValue((prev: { offset: string }) => ({
-    ...prev,
-    offset: String(Number(prev.offset) + 10),
-  }));
-  setCurrentPage((prev) => prev + 1);
-};
+  const incrementPagination = () => {
+    setPaginationValue((prev: { offset: string }) => ({
+      ...prev,
+      offset: String(Number(prev.offset) + 10),
+    }));
+    setCurrentPage((prev) => prev + 1);
+  };
 
-const decrementPagination = () => {
-  setPaginationValue((prev: { offset: string }) => ({
-    ...prev,
-    offset: String(Math.max(0, Number(prev.offset) - 10)),
-  }));
-  setCurrentPage((prev) => Math.max(1, prev - 1));
-};
-
+  const decrementPagination = () => {
+    setPaginationValue((prev: { offset: string }) => ({
+      ...prev,
+      offset: String(Math.max(0, Number(prev.offset) - 10)),
+    }));
+    setCurrentPage((prev) => Math.max(1, prev - 1));
+  };
 
   useEffect(() => {
     return () => {};
   }, []);
 
   return (
-    <div className="  w-[1000px]">
+    <div className="w-[1000px]">
       <div
         className="h-96 sm:h-[450px]  overflow-y-scroll scrollbar-hide"
         style={{
           overflowY: "scroll",
-          scrollbarWidth: "none" ,
-          msOverflowStyle: "none" ,
+          scrollbarWidth: "none",
+          msOverflowStyle: "none",
         }}
       >
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -53,28 +54,23 @@ const decrementPagination = () => {
               ))}
             </tr>
           </thead>
-
           <tbody className="">
-            {data.map((item , index) => (
+            {data.map((item, index) => (
               <tr
                 key={index}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"
               >
-                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white ">
                   {item.name}
                 </th>
                 <td className="px-6 py-4">
-                  <Links to={`pokemon/${item.name}`}>
-                    <img
+                    <Img
+                      classes="w-12 border rounded-full cursor-pointer"
                       src={item.img}
-                      alt=""
-                      className="w-12 border rounded-full"
-                      onClick={() => {
-                        const audio = new Audio("/assets/sounds/beep-07.wav");
-                        audio.play();
+                      onDoubleClick={() => {
+                        navigate(`pokemon/${item.name}`)
                       }}
                     />
-                  </Links>
                 </td>
               </tr>
             ))}

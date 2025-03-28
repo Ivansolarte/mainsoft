@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { ButtonClasses } from "../../atoms/button/buttonClasses";
+import { H } from "../../atoms/text/h";
+import { P } from "../../atoms/text/p";
 
 type PokemonAbility = {
   ability: {
     name: string;
     url: string;
-};
+  };
 };
 
 export const ModalAbilities = ({
@@ -49,9 +51,7 @@ export const ModalAbilities = ({
             <div className="bg-white px-4 pt-5 pb-4 ">
               <div className="border py-5">
                 <div className="mt-3 text-center ">
-                  <h3 className="text-2xl font-bold text-gray-900">
-                    Habilidades
-                  </h3>
+                  <H classes="text-2xl font-bold text-gray-900">Habilidades</H>
                   <div className=" flex justify-around my-3 py-3 ">
                     {pokemonsAbil.map((a, i) => (
                       <ButtonClasses
@@ -64,12 +64,12 @@ export const ModalAbilities = ({
                   </div>
                   {abilityInfo && (
                     <div className="my-2 px-1">
-                      <p>
+                      <P classes="">
                         <strong className="mr-1">
                           Efecto de la habilidad:
                         </strong>{" "}
                         {abilityInfo}
-                      </p>
+                      </P>
                     </div>
                   )}
                 </div>

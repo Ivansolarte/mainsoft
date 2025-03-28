@@ -4,16 +4,17 @@ import { GetPokemons, searchPokemons } from "../services/service.pokemons";
 import { InputClasses } from "../components/atoms/input/inputClasses";
 import { ButtonClasses } from "../components/atoms/button/buttonClasses";
 import { useAuthStore } from "../lib/store/authStore";
+import { P } from "../components/atoms/text/p";
+import { H } from "../components/atoms/text/h";
 
 interface PokemonData {
   sprites: string;
   name: string;
   img: string;
-
 }
 
 export const Dashboard = () => {
-  const {logout}=useAuthStore()
+  const { logout } = useAuthStore();
   const [arrayPokemons, setArrayPokemons] = useState<PokemonData[]>([]);
   const [paginationValue, setPaginationValue] = useState({
     limit: "10",
@@ -30,7 +31,7 @@ export const Dashboard = () => {
     GetPokemons(paginationValue)
       .then(async (resp) => {
         const updatedResults = await Promise.all(
-          resp.results.map(async (item: {name:string}) => {
+          resp.results.map(async (item: { name: string }) => {
             const data = await fetch(
               `https://pokeapi.co/api/v2/pokemon-form/${item.name}`
             )
@@ -77,6 +78,11 @@ export const Dashboard = () => {
     }
   };
 
+  const closeSession = () => {
+    logout();
+    sessionStorage.clear();
+  };
+
   useEffect(() => {
     getPokemos();
     return () => {};
@@ -85,13 +91,17 @@ export const Dashboard = () => {
   return (
     <div className="px-4 text-center ">
       <div className="bg-slate-100 mt-5 py-2 ">
-      <div className="w-full  text-end">
-        <p className="text-lg font-semibold underline cursor-pointer" onClick={()=>logout()}>Cerrar session</p>
-      </div>
-        
-        <h1 className="text-center font-bold text-lg sm:text-star  sm:text-2xl py-6">
+        <div className="w-full  text-end">
+          <P
+            classes="text-lg font-semibold underline cursor-pointer"
+            onClick={closeSession}
+          >
+            Cerrar session
+          </P>
+        </div>
+        <H classes="text-center font-bold text-lg sm:text-star  sm:text-2xl py-6">
           "¡Encuentra tu Pokémon favorito! 🔍"
-        </h1>
+        </H>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 py-1 px-10">
           <div className=" text-end flex items-center justify-center sm:justify-end">
             <InputClasses
@@ -116,8 +126,8 @@ export const Dashboard = () => {
             className="bg-orange-100 border-l-4 border-orange-500 text-orange-700 p-1"
             role="alert"
           >
-            <p className="font-bold">Información</p>
-            <p>No se encontró el Pokemon que estas buscando.</p>
+            <P classes="font-bold">Información</P>
+            <P>No se encontró el Pokemon que estas buscando.</P>
           </div>
         )}
       </div>
