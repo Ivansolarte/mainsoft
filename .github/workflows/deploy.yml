@@ -3,28 +3,31 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - main # o la rama que estés utilizando
+      - main  # Esto ejecutará el flujo de trabajo solo cuando haya un push a la rama main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest  # Define el entorno de ejecución
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v2  # Esto verifica el código de tu repositorio
 
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v2  # Configura Node.js
         with:
-          node-version: '16' # usa la versión de Node.js que prefieras
+          node-version: '16'  # Asegúrate de que la versión de Node sea compatible
 
       - name: Install dependencies
-        run: npm install
+        run: |
+          npm install  # Instala todas las dependencias del proyecto
+
+      - name: Build project
+        run: |
+          npm run build  # Ejecuta el script de build
 
       - name: Deploy to Vercel
         run: |
-          npm install -g vercel
-          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod
+          vercel --token ${{ secrets.VERCEL_TOKEN }} --prod  # Despliega a Vercel en producción
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}  # Usa el token que guardaste como secreto
