@@ -6,9 +6,7 @@ import { useAuthStore } from "./lib/store/authStore";
 function App() {
   const { isAuthenticated ,login} = useAuthStore();
 
-  useEffect(() => {    
-    console.log("cargando app");
-    
+  useEffect(() => {
     if(sessionStorage.getItem('token')) login();
   }, []) 
 
