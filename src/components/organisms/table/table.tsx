@@ -13,7 +13,7 @@ export const Table = ({
   const [currentPage, setCurrentPage] = useState(1);
 
 const incrementPagination = () => {
-  setPaginationValue((prev) => ({
+  setPaginationValue((prev: { offset: string }) => ({
     ...prev,
     offset: String(Number(prev.offset) + 10),
   }));
@@ -21,7 +21,7 @@ const incrementPagination = () => {
 };
 
 const decrementPagination = () => {
-  setPaginationValue((prev) => ({
+  setPaginationValue((prev: { offset: string }) => ({
     ...prev,
     offset: String(Math.max(0, Number(prev.offset) - 10)),
   }));
@@ -55,7 +55,7 @@ const decrementPagination = () => {
           </thead>
 
           <tbody className="">
-            {data.map((item, index) => (
+            {data.map((item , index) => (
               <tr
                 key={index}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200"

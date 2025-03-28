@@ -1,7 +1,20 @@
 import { useState } from "react";
 import { ButtonClasses } from "../../atoms/button/buttonClasses";
 
-export const ModalAbilities = ({ pokemonsAbil, setModalShow }) => {
+type PokemonAbility = {
+  ability: {
+    name: string;
+    url: string;
+};
+};
+
+export const ModalAbilities = ({
+  pokemonsAbil,
+  setModalShow,
+}: {
+  pokemonsAbil: PokemonAbility[];
+  setModalShow: () => void;
+}) => {
   const [abilityInfo, setAbilityInfo] = useState<string>("");
 
   const getAbilityDetails = async (url: string) => {

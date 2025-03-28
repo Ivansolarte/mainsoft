@@ -1,4 +1,3 @@
-import React from "react";
 import { ButtonClasses } from "../../components/atoms/button/buttonClasses";
 
 export const Pagination = ({pagination, decrementPagination, incrementPagination, setPaginationValue}:any) => {
@@ -56,7 +55,7 @@ export const Pagination = ({pagination, decrementPagination, incrementPagination
                 <button
                   key={index}
                   onClick={() => {                    
-                    setPaginationValue((prev) => ({
+                    setPaginationValue((prev:{ offset: number }) => ({
                         ...prev,
                         offset: item,
                       }))

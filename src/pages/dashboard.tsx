@@ -3,22 +3,18 @@ import { Table } from "../components/organisms/table/table";
 import { GetPokemons, searchPokemons } from "../services/service.pokemons";
 import { InputClasses } from "../components/atoms/input/inputClasses";
 import { ButtonClasses } from "../components/atoms/button/buttonClasses";
+import { useAuthStore } from "../lib/store/authStore";
 
-// siguientes requisitos:
+interface PokemonData {
+  sprites: string;
+  name: string;
+  img: string;
 
-// Debe mostrar en la pantalla de inicio siempre una tabla con 10 Pokemons, en dicha tabla se debe mostrar:
-// Nombre del Pokémon
-// Imagen del Pokémon
-// Debe utilizar la paginación para las siguientes búsquedas.
-// Debes tener filtro por si se quiere buscar algún Pokémon específico por nombre
-// Si se da doble clic en la imagen de Pokemon, este deberá mostrar los siguientes datos de Pokemon:
-// Tipos de Pokémon
-// Peso
-// Habilidades del Pokémon
-// Por último, si se le da clic a la habilidad deberá mostrar los efectos que produce.
+}
 
 export const Dashboard = () => {
-  const [arrayPokemons, setArrayPokemons] = useState([]);
+  const {logout}=useAuthStore()
+  const [arrayPokemons, setArrayPokemons] = useState<PokemonData[]>([]);
   const [paginationValue, setPaginationValue] = useState({
     limit: "10",
     offset: "0",
@@ -34,7 +30,7 @@ export const Dashboard = () => {
     GetPokemons(paginationValue)
       .then(async (resp) => {
         const updatedResults = await Promise.all(
-          resp.results.map(async (item: any) => {
+          resp.results.map(async (item: {name:string}) => {
             const data = await fetch(
               `https://pokeapi.co/api/v2/pokemon-form/${item.name}`
             )
@@ -89,6 +85,10 @@ export const Dashboard = () => {
   return (
     <div className="px-4 text-center ">
       <div className="bg-slate-100 mt-5 py-2 ">
+      <div className="w-full  text-end">
+        <p className="text-lg font-semibold underline cursor-pointer" onClick={()=>logout()}>Cerrar session</p>
+      </div>
+        
         <h1 className="text-center font-bold text-lg sm:text-star  sm:text-2xl py-6">
           "¡Encuentra tu Pokémon favorito! 🔍"
         </h1>
@@ -121,7 +121,7 @@ export const Dashboard = () => {
           </div>
         )}
       </div>
-      <div className="flex justify-center">
+      <div className="flex justify-center mt-1">
         <Table
           data={arrayPokemons}
           title={title}
